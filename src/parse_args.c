@@ -44,6 +44,8 @@ static uint8_t extract_files(int ac, char **av, t_args *args)
 		size = 1;
 	}
 	args->files = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!args->files)
+		return 2;
 	args->files[size] = NULL;
 
 	if (!s)
@@ -84,11 +86,19 @@ t_args *parse_args(int ac, char **av)
 		free(args);
 		return (void *)-1;
 	}
-	if (!extract_files(ac, av, args))
+	uint8_t ret = extract_files(ac, av, args);
+	if (!ret)
+	{
+		free(args->options);
+		free(args->files);
+		free(args);
+		return (void *)-1;
+	}
+	else if (ret == 2)
 	{
 		free(args->options);
 		free(args);
-		return (void *)-1;
+		return NULL;
 	}
 	return args;
 }

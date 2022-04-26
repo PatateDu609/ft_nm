@@ -11,6 +11,7 @@ int main(int ac, char **av)
 		return (1);
 
 	print_args(args);
+	int ret = ft_nm(args);
 	free_args(args);
-	return (0);
+	return (ret);
 }

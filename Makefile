@@ -1,4 +1,4 @@
-NAME				:=	ft_nm
+NAME				=	ft_nm
 AUTHOR				:=	gboucett
 
 PATH_INC			:=	-I./include
@@ -12,7 +12,19 @@ MKDIR				:=	@mkdir -p
 CFLAGS				:=	-Wall -Werror -Wextra -g3 -gdwarf-2 -fdiagnostics-color=always
 LDFLAGS				:=	-g3
 
+ifeq ($(PLATFORM),32)
+	NAME			= ft_nm_x86
+	CFLAGS			+=	-m32
+	LDFLAGS			+=	-m32
+	PATH_OBJS		=	objs/32bits
+else
+	CFLAGS			+=	-m64
+	LDFLAGS			+=	-m64
+	PATH_OBJS		=	objs/64bits
+endif
+
 BASENAME			:=	main.c						\
+						ft_nm.c						\
 						help.c						\
 						parse_args.c				\
 						options/init.c				\
@@ -21,10 +33,13 @@ BASENAME			:=	main.c						\
 						utils/printer.c				\
 						utils/free_args.c			\
 						utils/string.c				\
+						core/core.c					\
 
 SRCS				:=	$(addprefix $(PATH_SRCS)/, $(BASENAME))
 OBJS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.o))
 DEPS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.d))
+# $(info $(DEPS))
+# exit 1
 
 #######################################################################################################################################################
 #######################################################################################################################################################
@@ -40,7 +55,6 @@ COLOR_FILE			= 	\033[34m
 COLOR_PERCENT		= 	\033[1;94m
 CLEAR_COLOR			=	\033[m
 
-# ▰╍╍╍╍╍╍╍╍╍ 10%
 NAME_PRINT			=	$(COLOR_HEADER)Name$(CLEAR_COLOR)
 PROGRESS_BAR_CHAR	=	$(COLOR_PERCENT)▰$(CLEAR_COLOR)
 REMAINING_BAR_CHAR 	=	$(COLOR_PERCENT)╍$(CLEAR_COLOR)
@@ -63,7 +77,7 @@ define init_makefile =
 	$(show_git_infos)
 
 	@if [ $(PROGRESS) -eq 0 ]; then \
-		clear;\
+		clear; \
 		tput civis;\
 		/bin/echo -e '$(TMP_NAME)\n$(TMP_AUTHOR)\n$(TMP_CC)\n$(TMP_FLAGS)\n$(TMP_LINKER)\n$(TMP_REPOS)$(if $(TMP_BRANCH),\n$(TMP_BRANCH))' \
 		| sed -e 's/^ //' | column -t -s':' -o '       ' | tr '!' ':'; \
@@ -109,10 +123,11 @@ $(PATH_OBJS)/%.o:	$(PATH_SRCS)/%.c
 					$(init_makefile)
 					$(show_progress)
 
-					$(MKDIR) $(dir $@)
-					$(eval TMP_COMP = $(shell $(CC) $(CFLAGS) $(PATH_INC) -MMD -c $< -o $@ 2> /tmp/compilation_error_$(subst /,_,$@) && echo 'true'))
+					$(shell mkdir -p $(dir $@))
+					$(eval TMP_COMP := $(shell $(CC) $(CFLAGS) $(PATH_INC) -MMD -c $< -o $@ 2> /tmp/compilation_error_$(subst /,_,$@) && echo 'true'))
 					@if [ '$(TMP_COMP)' != 'true' ]; then \
 						tput cnorm; \
+						echo ""; \
 						cat /tmp/compilation_error_$(subst /,_,$@); \
 						exit 2; \
 					fi
@@ -126,6 +141,7 @@ all:				$(NAME)
 -include $(DEPS)
 
 $(NAME):			$(OBJS)
+					$(init_makefile)
 					@tput cnorm
 					@echo "Linking $(NAME)..."
 					@$(CC) $(LDFLAGS) $(OBJS) -o $@
@@ -133,7 +149,7 @@ $(NAME):			$(OBJS)
 					@/bin/echo -e "Compilation done $(COLOR_DONE)\xE2\x9C\x94$(CLEAR_COLOR)"
 
 clean:
-					$(RM) $(OBJS)
+					$(RM) -r $(PATH_OBJS)
 
 fclean:				clean
 					$(RM) $(NAME)
