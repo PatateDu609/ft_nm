@@ -11,8 +11,9 @@ MKDIR				:=	@mkdir -p
 
 CFLAGS				:=	-Wall -Werror -Wextra -g3 -gdwarf-2 -fdiagnostics-color=always
 LDFLAGS				:=	-g3
+PLATFORM			:=	x86_64
 
-ifeq ($(PLATFORM),32)
+ifeq ($(PLATFORM),x86)
 	NAME			= ft_nm_x86
 	CFLAGS			+=	-m32
 	LDFLAGS			+=	-m32
@@ -49,7 +50,7 @@ PROGRESS			:=	0
 NO_OF_FILES			:=	$(words $(SRCS))
 
 COLOR_HEADER		= 	\033[1;31m
-COLOR_DONE		= 	\033[1;32m
+COLOR_DONE			= 	\033[1;32m
 COLOR_HEADER_CONT	= 	\033[38;5;247m
 COLOR_FILE			= 	\033[34m
 COLOR_PERCENT		= 	\033[1;94m
@@ -74,12 +75,13 @@ define init_makefile =
 	$(eval TMP_CC = $(COLOR_HEADER)Compiler$(CLEAR_COLOR):$(COLOR_HEADER_CONT)$(subst @,,$(CC))$(CLEAR_COLOR))
 	$(eval TMP_FLAGS = $(COLOR_HEADER)Flags$(CLEAR_COLOR):$(COLOR_HEADER_CONT)$(CFLAGS)$(CLEAR_COLOR))
 	$(eval TMP_LINKER = $(COLOR_HEADER)Linker flags$(CLEAR_COLOR):$(COLOR_HEADER_CONT)$(LDFLAGS)$(CLEAR_COLOR))
+	$(eval TMP_PLATFORM = $(COLOR_HEADER)Platform$(CLEAR_COLOR):$(COLOR_HEADER_CONT)$(PLATFORM)$(CLEAR_COLOR))
 	$(show_git_infos)
 
 	@if [ $(PROGRESS) -eq 0 ]; then \
 		clear; \
 		tput civis;\
-		/bin/echo -e '$(TMP_NAME)\n$(TMP_AUTHOR)\n$(TMP_CC)\n$(TMP_FLAGS)\n$(TMP_LINKER)\n$(TMP_REPOS)$(if $(TMP_BRANCH),\n$(TMP_BRANCH))' \
+		/bin/echo -e '$(TMP_NAME)\n$(TMP_AUTHOR)\n$(TMP_CC)\n$(TMP_FLAGS)\n$(TMP_LINKER)\n$(TMP_PLATFORM)\n$(TMP_REPOS)$(if $(TMP_BRANCH),\n$(TMP_BRANCH))' \
 		| sed -e 's/^ //' | column -t -s':' -o '       ' | tr '!' ':'; \
 		echo ""; \
 	fi
@@ -97,9 +99,9 @@ endef
 
 define clear_line =
 	if [ -d .git ]; then \
-		tput cup 8 0; \
+		tput cup 9 0; \
 	else \
-		tput cup 7 0; \
+		tput cup 8 0; \
 	fi; \
 	tput el
 endef
@@ -148,15 +150,26 @@ $(NAME):			$(OBJS)
 					@$(clear_line)
 					@/bin/echo -e "Compilation done $(COLOR_DONE)\xE2\x9C\x94$(CLEAR_COLOR)"
 
+x86:
+					@make -s PLATFORM=x86
+
 clean:
 					$(RM) -r $(PATH_OBJS)
+
+clean_x86:
+					@make -s PLATFORM=x86 clean
 
 fclean:				clean
 					$(RM) $(NAME)
 
+fclean_x86:			clean_x86
+					@make -s PLATFORM=x86 fclean
+
 re:					fclean all
+
+re_x86: 			fclean_x86 x86
 
 init:
 					$(init_makefile)
 
-.PHONY:				all clean fclean re
+.PHONY:				all clean fclean re fclean_x86 init clean_x86 x86 re_x86
