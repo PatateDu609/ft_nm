@@ -126,6 +126,7 @@ all:				$(NAME)
 -include $(DEPS)
 
 $(NAME):			$(OBJS)
+					@tput cnorm
 					@echo "Linking $(NAME)..."
 					@$(CC) $(LDFLAGS) $(OBJS) -o $@
 					@$(clear_line)

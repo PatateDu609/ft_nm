@@ -18,6 +18,8 @@ int8_t get_option(t_option *options, char *arg)
 			flag = options[i].flag;
 			break;
 		}
+		else
+			return 0;
 	}
 	return flag;
 }
