@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-int8_t get_option(t_option *options, char *arg);
+int8_t get_option(t_option *options, int nb_opt, char *arg);
 t_option *init_options(int *nb);
 void print_flags(uint8_t flags, t_option *options);
 
