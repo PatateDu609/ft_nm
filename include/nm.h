@@ -3,6 +3,8 @@
 
 #include "defines.h"
 #include "structs.h"
+#include "core.h"
+#include "utils.h"
 
 #include <stdlib.h>
 

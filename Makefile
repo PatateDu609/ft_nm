@@ -32,9 +32,12 @@ BASENAME			:=	main.c						\
 						options/get_option.c		\
 						options/print_flags.c		\
 						utils/printer.c				\
-						utils/free_args.c			\
+						utils/log_error.c			\
+						utils/free.c				\
 						utils/string.c				\
 						core/core.c					\
+						core/utils.c				\
+						core/extract_header.c		\
 
 SRCS				:=	$(addprefix $(PATH_SRCS)/, $(BASENAME))
 OBJS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.o))
