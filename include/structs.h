@@ -1,6 +1,7 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+#include "defines.h"
 #include <inttypes.h>
 #include <elf.h>
 #include <stddef.h>
@@ -34,12 +35,44 @@ typedef struct s_file_dump
 	};
 } t_file_dump;
 
+typedef struct s_symbol_x64
+{
+	char *name;
+	Elf64_Addr value;
+	Elf64_Xword size;
+	uint8_t bind;
+	uint8_t type;
+	uint8_t visibility;
+	Elf64_Word shndx;
+	Elf64_Shdr *section;
+} t_symbol_x64;
+
+typedef struct s_symbol_x86
+{
+	char *name;
+	Elf32_Addr value;
+	Elf32_Word size;
+	uint8_t bind;
+	uint8_t type;
+	uint8_t visibility;
+	Elf32_Word shndx;
+	Elf32_Shdr *section;
+} t_symbol_x86;
+
+typedef struct s_symbol
+{
+	t_symbol_x64 *x64;
+	t_symbol_x86 *x86;
+} t_symbol;
+
 typedef struct s_file
 {
 	int fd;
 	char *name;
 	t_file_dump *dump;
+	t_args *args;
 	size_t size;
+	t_symbol *symbols;
 } t_file;
 
 #endif

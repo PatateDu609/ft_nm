@@ -10,7 +10,7 @@ int main(int ac, char **av)
 	else if (args == (void *)-1)
 		return (1);
 
-	print_args(args);
+	// print_args(args);
 	int ret = ft_nm(args);
 	free_args(args);
 	return (ret);

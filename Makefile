@@ -35,15 +35,19 @@ BASENAME			:=	main.c						\
 						utils/log_error.c			\
 						utils/free.c				\
 						utils/string.c				\
+						utils/sort.c				\
 						core/core.c					\
+						core/x64.c					\
+						core/x86.c					\
 						core/utils.c				\
 						core/extract_header.c		\
+						core/shared/add_symbol.c	\
+						core/shared/print_syms.c	\
+						core/shared/ft_putinfos.c	\
 
 SRCS				:=	$(addprefix $(PATH_SRCS)/, $(BASENAME))
 OBJS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.o))
 DEPS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.d))
-# $(info $(DEPS))
-# exit 1
 
 #######################################################################################################################################################
 #######################################################################################################################################################
@@ -109,6 +113,15 @@ define clear_line =
 	tput el
 endef
 
+define clear_progress =
+	if [ -d .git ]; then \
+		tput cup 10 0; \
+	else \
+		tput cup 9 0; \
+	fi
+	tput el
+endef
+
 define show_progress =
 	$(eval PROGRESS = $(shell expr $(PROGRESS) + 1))
 	$(eval TMP := $(shell echo "scale=3;$(PROGRESS) / $(NO_OF_FILES) * 100" | bc))
@@ -150,6 +163,7 @@ $(NAME):			$(OBJS)
 					@tput cnorm
 					@echo "Linking $(NAME)..."
 					@$(CC) $(LDFLAGS) $(OBJS) -o $@
+					@$(clear_progress)
 					@$(clear_line)
 					@/bin/echo -e "Compilation done $(COLOR_DONE)\xE2\x9C\x94$(CLEAR_COLOR)"
 
