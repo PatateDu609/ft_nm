@@ -92,7 +92,7 @@ define init_makefile =
 		clear; \
 		tput civis;\
 		/bin/echo -e '$(TMP_NAME)\n$(TMP_AUTHOR)\n$(TMP_CC)\n$(TMP_FLAGS)\n$(TMP_LINKER)\n$(TMP_PLATFORM)\n$(TMP_REPOS)$(if $(TMP_BRANCH),\n$(TMP_BRANCH))' \
-		| sed -e 's/^ //' | column -t -s':' -o '       ' | tr '!' ':'; \
+		| sed -e 's/^ //' | column -t -s':' | tr '!' ':'; \
 		echo ""; \
 	fi
 endef

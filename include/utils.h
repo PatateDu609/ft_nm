@@ -17,6 +17,7 @@ int ft_strcmp(char *s1, char *s2);
 int ft_strncmp(char *s1, char *s2, size_t n);
 char *ft_strstr(char *str, char *to_find);
 void print_strs(char **strs);
+int ft_strcmp_alpha(char *s1, char *s2);
 
 void ft_putstr(char *str);
 void ft_putendl(char *str);

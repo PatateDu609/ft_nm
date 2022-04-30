@@ -62,8 +62,6 @@ void nm_64(t_file *file)
 		nm_64_symtab(file, shdr, symtab, strtab, shstrtab);
 	else
 	{
-		ft_putstr("ft_nm: ");
-		ft_putstr(file->name);
-		ft_putstr(": No symbol table found\n");
+		log_stat_error(file->name, "No symbols");
 	}
 }

@@ -2,7 +2,7 @@
 
 make -s
 
-diff --color <(./ft_nm $@ | cat -e) <(nm $@ | cat -e)
+diff -u --color <(./ft_nm $@ | cat -e) <(nm $@ | cat -e)
 if [ $? -eq 0 ]; then
 	echo -e "\e[1;32mOK\e[0m"
 else

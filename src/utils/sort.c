@@ -7,11 +7,25 @@ char *get_name(t_symbol *sym)
 	return sym->x86 ? sym->x86->name : sym->x64->name;
 }
 
+int ft_valcmp(t_symbol *a, t_symbol *b)
+{
+	if (a->x64 && b->x64)
+		return (a->x64->value > b->x64->value ? 1 : -1);
+	if (a->x86 && b->x86)
+		return (a->x86->value > b->x86->value ? 1 : -1);
+	return 0;
+}
+
 static int cmp_symbol(t_symbol *a, t_symbol *b)
 {
 	if (get_name(a) == NULL || get_name(b) == NULL)
 		return (0);
-	return (ft_strcmp(get_name(a), get_name(b)));
+	int ret_str = ft_strcmp_alpha(get_name(a), get_name(b));
+	if (ret_str)
+		return ret_str;
+	if ((ret_str = ft_strcmp(get_name(a), get_name(b))) > 0)
+		return ft_valcmp(b, a);
+	return ft_valcmp(a, b);
 }
 
 static void swap_symbols(t_symbol *a, t_symbol *b)

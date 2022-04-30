@@ -9,7 +9,7 @@ t_file *open_file(char *name)
 
 	if (fd == -1)
 	{
-		log_stat_error(name, "No such file or directory");
+		log_stat_error(name, "No such file");
 		return (NULL);
 	}
 	int ret = fstat(fd, &s);
@@ -22,6 +22,11 @@ t_file *open_file(char *name)
 	}
 
 	file = (t_file *)malloc(sizeof(t_file));
+	if (!file)
+	{
+		log_error("ft_nm: Malloc failed...");
+		return NULL;
+	}
 	file->fd = fd;
 	file->name = name;
 	file->size = s.st_size;

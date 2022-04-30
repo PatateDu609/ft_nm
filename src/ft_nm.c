@@ -4,6 +4,7 @@ int ft_nm(t_args *args)
 {
 	t_file *file;
 	int ret = 0;
+	uint8_t print_prefix = !!args->files[1];
 
 	for (char **pfile = args->files; *pfile; pfile++)
 	{
@@ -20,6 +21,12 @@ int ft_nm(t_args *args)
 			ret++;
 			free_file(file);
 			continue;
+		}
+		if (print_prefix)
+		{
+			ft_putendl("");
+			ft_putstr(f);
+			ft_putendl(":");
 		}
 		if (file->dump->class == ELFCLASS64)
 			nm_64(file);
