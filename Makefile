@@ -24,26 +24,27 @@ else
 	PATH_OBJS		=	objs/64bits
 endif
 
-BASENAME			:=	main.c						\
-						ft_nm.c						\
-						help.c						\
-						parse_args.c				\
-						options/init.c				\
-						options/get_option.c		\
-						options/print_flags.c		\
-						utils/printer.c				\
-						utils/log_error.c			\
-						utils/free.c				\
-						utils/string.c				\
-						utils/sort.c				\
-						core/core.c					\
-						core/x64.c					\
-						core/x86.c					\
-						core/utils.c				\
-						core/extract_header.c		\
-						core/shared/add_symbol.c	\
-						core/shared/print_syms.c	\
-						core/shared/ft_putinfos.c	\
+BASENAME			:=	main.c							\
+						ft_nm.c							\
+						help.c							\
+						parse_args.c					\
+						options/init.c					\
+						options/get_option.c			\
+						options/print_flags.c			\
+						utils/printer.c					\
+						utils/log_error.c				\
+						utils/free.c					\
+						utils/string.c					\
+						utils/sort.c					\
+						core/core.c						\
+						core/x64.c						\
+						core/x86.c						\
+						core/utils.c					\
+						core/extract_header.c			\
+						core/shared/add_symbol.c		\
+						core/shared/print_syms.c		\
+						core/shared/ft_putinfos.c		\
+						core/shared/options_checks.c	\
 
 SRCS				:=	$(addprefix $(PATH_SRCS)/, $(BASENAME))
 OBJS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.o))

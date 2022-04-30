@@ -32,7 +32,8 @@ static int pivot(int rev, t_symbol *symbols, int start, int end)
 	pivot = symbols + end;
 	for (int j = start; j < end; j++)
 	{
-		if (cmp_symbol(symbols + j, pivot) * rev < 0)
+		if ((rev == 1 && cmp_symbol(symbols + j, pivot) < 0) ||
+			(rev == -1 && cmp_symbol(symbols + j, pivot) >= 0))
 		{
 			i++;
 			swap_symbols(symbols + i, symbols + j);
@@ -56,20 +57,5 @@ void __sort(int rev, t_symbol *symbols, int s, int e)
 
 void sort(int rev, t_symbol *syms, int len)
 {
-	__sort(rev ? 1 : -1, syms, 0, len - 1);
-}
-
-void rev(t_symbol *syms, int len)
-{
-	t_symbol *tmp;
-	int i;
-
-	i = 0;
-	while (i < len / 2)
-	{
-		tmp = syms + i;
-		syms[i] = syms[len - i - 1];
-		syms[len - i - 1] = *tmp;
-		i++;
-	}
+	__sort(rev ? -1 : 1, syms, 0, len - 1);
 }

@@ -24,6 +24,5 @@ void log_error_open(char *prefix, char *file);
 int fatal(char *msg);
 
 void sort(int rev, t_symbol *syms, int len);
-void rev(t_symbol *syms, int len);
 
 #endif

@@ -1,6 +1,6 @@
 #include "core_shared.h"
 
-void ft_putinfos_64(t_symbol_x64 *sym)
+char ft_getinfos_64(t_symbol_x64 *sym)
 {
 	char c;
 	if (!sym || sym->shndx == SHN_ABS)
@@ -31,11 +31,12 @@ void ft_putinfos_64(t_symbol_x64 *sym)
 		c = '?';
 	if ((!sym || sym->bind == STB_LOCAL) && c != '?')
 		c += 32;
-	write(1, &c, 1);
-	write(1, " ", 1);
+	// write(1, &c, 1);
+	// write(1, " ", 1);
+	return c;
 }
 
-void ft_putinfos_32(t_symbol_x86 *sym)
+char ft_getinfos_32(t_symbol_x86 *sym)
 {
 	char c;
 	if (!sym || sym->shndx == SHN_ABS)
@@ -66,6 +67,7 @@ void ft_putinfos_32(t_symbol_x86 *sym)
 		c = '?';
 	if ((!sym || sym->bind == STB_LOCAL) && c != '?')
 		c += 32;
-	write(1, &c, 1);
-	write(1, " ", 1);
+	// write(1, &c, 1);
+	// write(1, " ", 1);
+	return c;
 }
