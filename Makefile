@@ -43,7 +43,8 @@ BASENAME			:=	main.c							\
 						core/extract_header.c			\
 						core/shared/add_symbol.c		\
 						core/shared/print_syms.c		\
-						core/shared/ft_putinfos.c		\
+						core/shared/ft_getinfos_x64.c	\
+						core/shared/ft_getinfos_x86.c	\
 						core/shared/options_checks.c	\
 						core/shared/stt.c				\
 

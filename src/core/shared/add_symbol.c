@@ -1,6 +1,6 @@
 #include "core_shared.h"
 
-t_symbol_x64 *create_symbol_x64(char *name, Elf64_Sym *sym, Elf64_Shdr *section, Elf64_Word ndx)
+static t_symbol_x64 *create_symbol_x64(char *name, uint8_t sect_name, Elf64_Sym *sym, Elf64_Shdr *section, Elf64_Word ndx)
 {
 	t_symbol_x64 *symbol = malloc(sizeof(t_symbol_x64));
 	if (!symbol)
@@ -13,12 +13,13 @@ t_symbol_x64 *create_symbol_x64(char *name, Elf64_Sym *sym, Elf64_Shdr *section,
 	symbol->visibility = ELF64_ST_VISIBILITY(sym->st_other);
 	symbol->shndx = ndx;
 	symbol->section = section;
+	symbol->sect_name = sect_name;
 	return (symbol);
 }
 
-int add_symbol_x64(t_symbol *symbol, char *name, Elf64_Sym *sym, Elf64_Shdr *section, Elf64_Word ndx)
+int add_symbol_x64(t_symbol *symbol, char *name, uint8_t sect_name, Elf64_Sym *sym, Elf64_Shdr *section, Elf64_Word ndx)
 {
-	t_symbol_x64 *x64 = create_symbol_x64(name, sym, section, ndx);
+	t_symbol_x64 *x64 = create_symbol_x64(name, sect_name, sym, section, ndx);
 	if (!x64)
 		return (1);
 	symbol->x64 = x64;
@@ -26,7 +27,7 @@ int add_symbol_x64(t_symbol *symbol, char *name, Elf64_Sym *sym, Elf64_Shdr *sec
 	return (0);
 }
 
-t_symbol_x86 *create_symbol_x86(char *name, Elf32_Sym *sym, Elf32_Shdr *section, Elf32_Word ndx)
+t_symbol_x86 *create_symbol_x86(char *name, uint8_t sect_name, Elf32_Sym *sym, Elf32_Shdr *section, Elf32_Word ndx)
 {
 	t_symbol_x86 *symbol = malloc(sizeof(t_symbol_x86));
 	if (!symbol)
@@ -39,12 +40,13 @@ t_symbol_x86 *create_symbol_x86(char *name, Elf32_Sym *sym, Elf32_Shdr *section,
 	symbol->visibility = ELF32_ST_VISIBILITY(sym->st_other);
 	symbol->shndx = ndx;
 	symbol->section = section;
+	symbol->sect_name = sect_name;
 	return (symbol);
 }
 
-int add_symbol_x86(t_symbol *symbol, char *name, Elf32_Sym *sym, Elf32_Shdr *section, Elf32_Word ndx)
+int add_symbol_x86(t_symbol *symbol, char *name, uint8_t sect_name, Elf32_Sym *sym, Elf32_Shdr *section, Elf32_Word ndx)
 {
-	t_symbol_x86 *x86 = create_symbol_x86(name, sym, section, ndx);
+	t_symbol_x86 *x86 = create_symbol_x86(name, sect_name, sym, section, ndx);
 	if (!x86)
 		return (1);
 	symbol->x64 = NULL;

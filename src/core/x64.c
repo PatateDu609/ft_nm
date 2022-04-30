@@ -7,12 +7,13 @@ static Elf64_Shdr *get_section(Elf64_Shdr *shdr, Elf64_Section section)
 	return (shdr + section);
 }
 
-void nm_64_symtab(t_file *file, Elf64_Shdr *sections, Elf64_Shdr *symtab, Elf64_Shdr *strtab)
+static void nm_64_symtab(t_file *file, Elf64_Shdr *sections, Elf64_Shdr *symtab, Elf64_Shdr *strtab, char *shstrtab)
 {
 	Elf64_Sym *sym;
 	char *str;
 	size_t i, j;
 	size_t max = symtab->sh_size / symtab->sh_entsize;
+	char *name;
 
 	i = 1;
 	j = 0;
@@ -23,8 +24,13 @@ void nm_64_symtab(t_file *file, Elf64_Shdr *sections, Elf64_Shdr *symtab, Elf64_
 		return;
 	while (i < max)
 	{
-		if (add_symbol_x64(file->symbols + j++, str + sym[i].st_name,
-						   &sym[i], get_section(sections, sym[i].st_shndx), sym[i].st_shndx))
+		Elf64_Shdr *section = get_section(sections, sym[i].st_shndx);
+		name = str + sym[i].st_name;
+		if (name == NULL || name[0] == '\0')
+			name = shstrtab + section->sh_name;
+		if (add_symbol_x64(file->symbols + j++, name,
+						   section && name == shstrtab + section->sh_name,
+						   &sym[i], section, sym[i].st_shndx))
 			return;
 		i++;
 	}
@@ -52,5 +58,5 @@ void nm_64(t_file *file)
 		i++;
 	}
 	if (symtab && strtab)
-		nm_64_symtab(file, shdr, symtab, strtab);
+		nm_64_symtab(file, shdr, symtab, strtab, shstrtab);
 }

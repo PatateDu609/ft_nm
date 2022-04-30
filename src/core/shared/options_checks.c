@@ -20,9 +20,8 @@ uint8_t check_normal(uint8_t type)
 			type == 'n');
 }
 
-uint8_t check_a(uint8_t type)
+uint8_t check_a(__attribute__((__unused__)) uint8_t type)
 {
-	(void)type;
 	return 1;
 }
 

@@ -17,11 +17,17 @@ void ft_puthex(Elf64_Addr addr, int print, int size)
 	write(1, rev, size);
 }
 
-static uint8_t should_continue(char flags, char type)
+static uint8_t should_continue(char flags, char type, uint8_t class, t_symbol *sym)
 {
 	uint8_t g = CHECK_G(flags);
 	uint8_t u = CHECK_U(flags);
 	uint8_t a = CHECK_A(flags);
+	uint8_t is_sect_name;
+
+	if (class == ELFCLASS64)
+		is_sect_name = sym->x64->sect_name;
+	else
+		is_sect_name = sym->x86->sect_name;
 
 	if (u)
 		return (check_u(type));
@@ -29,7 +35,7 @@ static uint8_t should_continue(char flags, char type)
 		return (check_g(type));
 	if (a)
 		return (check_a(type));
-	return (check_normal(type));
+	return (check_normal(type) && !is_sect_name);
 }
 
 void print_syms(t_file *file, int max)
@@ -52,7 +58,7 @@ void print_syms(t_file *file, int max)
 		else
 			type = ft_getinfos_32(file, symbols[i].x86);
 
-		if (!should_continue(file->args->flags, type))
+		if (!should_continue(file->args->flags, type, class, symbols + i))
 		{
 			i++;
 			continue;

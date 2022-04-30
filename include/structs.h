@@ -38,6 +38,7 @@ typedef struct s_file_dump
 typedef struct s_symbol_x64
 {
 	char *name;
+	uint8_t sect_name;
 	Elf64_Addr value;
 	Elf64_Xword size;
 	uint8_t bind;
@@ -50,6 +51,7 @@ typedef struct s_symbol_x64
 typedef struct s_symbol_x86
 {
 	char *name;
+	uint8_t sect_name;
 	Elf32_Addr value;
 	Elf32_Word size;
 	uint8_t bind;
