@@ -70,12 +70,14 @@ char ft_getinfos_32(t_file *file, t_symbol_x86 *sym)
 		c = 'i';
 	else if (sym->bind == STB_WEAK)
 		c = (sym->type == STT_OBJECT) ? 'V' : 'W';
-	else if (sym->shndx == STB_GNU_UNIQUE)
+	else if (sym->bind == STB_GNU_UNIQUE)
+		c = 'u';
+	else if (sym->shndx != SHN_ABS)
 		c = non_abs_x86(file, sym);
 	else if (sym->shndx == SHN_ABS)
 		c = 'a';
 	if (sym->bind == STB_GLOBAL)
 		if ('a' <= c && c <= 'z')
-			c += 32;
+			c -= 32;
 	return c;
 }

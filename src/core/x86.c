@@ -26,7 +26,7 @@ static void nm_32_symtab(t_file *file, Elf32_Shdr *sections, Elf32_Shdr *symtab,
 	{
 		Elf32_Shdr *section = get_section(sections, sym[i].st_shndx);
 		name = str + sym[i].st_name;
-		if (name == NULL || name[0] == '\0')
+		if (section && (name == NULL || name[0] == '\0'))
 			name = shstrtab + section->sh_name;
 		if (add_symbol_x86(file->symbols + j++, name,
 						   section && name == shstrtab + section->sh_name,

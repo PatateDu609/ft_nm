@@ -26,7 +26,7 @@ static void nm_64_symtab(t_file *file, Elf64_Shdr *sections, Elf64_Shdr *symtab,
 	{
 		Elf64_Shdr *section = get_section(sections, sym[i].st_shndx);
 		name = str + sym[i].st_name;
-		if (name == NULL || name[0] == '\0')
+		if (section && (name == NULL || name[0] == '\0'))
 			name = shstrtab + section->sh_name;
 		if (add_symbol_x64(file->symbols + j++, name,
 						   section && name == shstrtab + section->sh_name,
@@ -59,4 +59,10 @@ void nm_64(t_file *file)
 	}
 	if (symtab && strtab)
 		nm_64_symtab(file, shdr, symtab, strtab, shstrtab);
+	else
+	{
+		ft_putstr("ft_nm: ");
+		ft_putstr(file->name);
+		ft_putstr(": No symbol table found\n");
+	}
 }
