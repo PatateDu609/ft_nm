@@ -75,4 +75,13 @@ typedef struct s_file
 	t_symbol *symbols;
 } t_file;
 
+typedef struct s_section_to_type
+{
+	char *name;
+	uint8_t type;
+	uint8_t exact;
+} t_section_to_type;
+
+extern t_section_to_type g_stt[];
+
 #endif

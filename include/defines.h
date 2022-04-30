@@ -16,6 +16,8 @@
 #define CHECK_G(opt) CHECK_FLAG(OPT_G, (opt))
 #define CHECK_H(opt) CHECK_FLAG(OPT_H, (opt))
 
+#define SH_IN(mapping, sh, size) ((void *)mapping <= (void *)sh && (void *)sh < (void *)mapping + size)
+
 #define STRTAB ".strtab"
 
 #endif

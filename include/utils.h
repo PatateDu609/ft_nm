@@ -15,6 +15,7 @@ char *get_name(t_symbol *sym);
 size_t ft_strlen(char *str);
 int ft_strcmp(char *s1, char *s2);
 int ft_strncmp(char *s1, char *s2, size_t n);
+char *ft_strstr(char *str, char *to_find);
 void print_strs(char **strs);
 
 void ft_putstr(char *str);

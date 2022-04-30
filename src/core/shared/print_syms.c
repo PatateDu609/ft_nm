@@ -48,9 +48,9 @@ void print_syms(t_file *file, int max)
 	while (i < max && (!null || symbols[i].x86 || symbols[i].x64))
 	{
 		if (class == ELFCLASS64)
-			type = ft_getinfos_64(symbols[i].x64);
+			type = ft_getinfos_64(file, symbols[i].x64);
 		else
-			type = ft_getinfos_32(symbols[i].x86);
+			type = ft_getinfos_32(file, symbols[i].x86);
 
 		if (!should_continue(file->args->flags, type))
 		{

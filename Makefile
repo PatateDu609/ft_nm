@@ -45,6 +45,7 @@ BASENAME			:=	main.c							\
 						core/shared/print_syms.c		\
 						core/shared/ft_putinfos.c		\
 						core/shared/options_checks.c	\
+						core/shared/stt.c				\
 
 SRCS				:=	$(addprefix $(PATH_SRCS)/, $(BASENAME))
 OBJS				:=	$(addprefix $(PATH_OBJS)/, $(BASENAME:%.c=%.o))

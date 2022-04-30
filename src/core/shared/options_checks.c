@@ -2,7 +2,8 @@
 
 uint8_t check_normal(uint8_t type)
 {
-	return (type == 'T' ||
+	return (type == '?' ||
+			type == 'T' ||
 			type == 't' ||
 			type == 'r' ||
 			type == 'd' ||
@@ -15,7 +16,8 @@ uint8_t check_normal(uint8_t type)
 			type == 'U' ||
 			type == 'u' ||
 			type == 'W' ||
-			type == 'w');
+			type == 'w' ||
+			type == 'n');
 }
 
 uint8_t check_a(uint8_t type)

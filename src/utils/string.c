@@ -34,6 +34,24 @@ size_t ft_strlen(char *str)
 	return (i);
 }
 
+char *ft_strstr(char *str, char *to_find)
+{
+	size_t i;
+	size_t j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i + j] && to_find[j] && str[i + j] == to_find[j])
+			j++;
+		if (to_find[j] == '\0')
+			return (&str[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 void print_strs(char **strs)
 {
 	int i;
