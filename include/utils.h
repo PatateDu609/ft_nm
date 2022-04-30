@@ -23,6 +23,7 @@ void ft_putendl(char *str);
 void log_error(char *msg);
 void log_error_open(char *prefix, char *file);
 int fatal(char *msg);
+void log_stat_error(char *name, char *msg);
 
 void sort(int rev, t_symbol *syms, int len);
 

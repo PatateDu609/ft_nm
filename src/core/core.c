@@ -5,12 +5,30 @@ t_file *open_file(char *name)
 {
 	t_file *file;
 	struct stat s;
+	int fd = open(name, O_RDONLY);
+
+	if (fd == -1)
+	{
+		log_stat_error(name, "No such file or directory");
+		return (NULL);
+	}
+	int ret = fstat(fd, &s);
+	if (ret == -1)
+		return (NULL);
+	if (S_ISDIR(s.st_mode))
+	{
+		log_stat_error(name, "Is a directory");
+		return (NULL);
+	}
 
 	file = (t_file *)malloc(sizeof(t_file));
-	file->fd = open(name, O_RDONLY);
+	file->fd = fd;
 	file->name = name;
-	file->size = fstat(file->fd, &s) ? 0 : s.st_size;
+	file->size = s.st_size;
 	file->dump = NULL;
+	file->args = NULL;
+	file->nb_symbols = 0;
+	file->symbols = NULL;
 	return (file);
 }
 

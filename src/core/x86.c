@@ -34,6 +34,7 @@ static void nm_32_symtab(t_file *file, Elf32_Shdr *sections, Elf32_Shdr *symtab,
 			return;
 		i++;
 	}
+	file->nb_symbols = j;
 	print_syms(file, j);
 }
 
@@ -59,4 +60,10 @@ void nm_32(t_file *file)
 	}
 	if (symtab && strtab)
 		nm_32_symtab(file, shdr, symtab, strtab, shstrtab);
+	else
+	{
+		ft_putstr("ft_nm: ");
+		ft_putstr(file->name);
+		ft_putstr(": No symbol table found\n");
+	}
 }

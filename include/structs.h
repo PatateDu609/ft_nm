@@ -75,6 +75,7 @@ typedef struct s_file
 	t_args *args;
 	size_t size;
 	t_symbol *symbols;
+	int nb_symbols;
 } t_file;
 
 typedef struct s_section_to_type

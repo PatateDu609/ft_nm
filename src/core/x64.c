@@ -34,6 +34,7 @@ static void nm_64_symtab(t_file *file, Elf64_Shdr *sections, Elf64_Shdr *symtab,
 			return;
 		i++;
 	}
+	file->nb_symbols = j;
 	print_syms(file, j);
 }
 

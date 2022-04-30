@@ -24,6 +24,15 @@ void log_error(char *msg)
 	__ft_putstr(2, "\n");
 }
 
+void log_stat_error(char *name, char *msg)
+{
+	__ft_putstr(2, "ft_nm: ");
+	__ft_putstr(2, name);
+	__ft_putstr(2, ": ");
+	__ft_putstr(2, msg);
+	__ft_putstr(2, "\n");
+}
+
 int fatal(char *msg)
 {
 	log_error(msg);

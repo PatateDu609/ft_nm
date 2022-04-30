@@ -9,18 +9,15 @@ int ft_nm(t_args *args)
 	{
 		char *f = *pfile;
 		file = open_file(f);
-		file->args = args;
-		if (file->fd == -1)
+		if (!file)
 		{
-			log_error_open("ft_nm: ", f);
-			free_file(file);
 			ret++;
 			continue;
 		}
+		file->args = args;
 		if (load_file(file) == -1)
 		{
 			ret++;
-			close(file->fd);
 			free_file(file);
 			continue;
 		}
@@ -32,11 +29,9 @@ int ft_nm(t_args *args)
 		{
 			ret++;
 			log_error("ft_nm: Unsupported class");
-			close(file->fd);
 			free_file(file);
 			continue;
 		}
-		close(file->fd);
 		free_file(file);
 	}
 	return (ret);
